@@ -1,6 +1,6 @@
 <?php
 return[
     'adminEmail' => 'webedufacil@gmail.com',
-    'title' => 'Aplicación Yii',
+    'title' => 'Torneos Estatales INCUFIDEZ',
     'salt' => 'fsddsflj38343lj0',
 ];

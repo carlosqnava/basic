@@ -13,6 +13,10 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'urlManager' => [
+            'showScriptName' => false,
+            'enablePrettyUrl' => true
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'BK87xdFe5gIXCixgRKqImjXbF2dfKR7_',
