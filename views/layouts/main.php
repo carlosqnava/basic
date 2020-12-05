@@ -45,7 +45,7 @@ AppAsset::register($this);
             ['label' => 'Ver Registros', 'url' => ['/site/view']],
             //['label' => 'Ver Calendario', 'url' => ['/site/view']],
             //['label' => 'Ver Convocatorias', 'url' => ['/site/view']],
-            ['label' => 'Acerca de', 'url' => ['/site/about']],
+            //['label' => 'Acerca de', 'url' => ['/site/about']],
             ['label' => 'Subir Archivo', 'url' => ['/site/upload']],
             ['label' => 'Registrarse', 'url' => ['/site/register']],
             ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
@@ -55,7 +55,7 @@ AppAsset::register($this);
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    'Logout (' . Yii::$app->user->identity->nombre . ')',
                     ['class' => 'btn btn-link logout']
                 )
                 . Html::endForm()

@@ -8,13 +8,13 @@ use yii\base\Model;
 /**
  * LoginForm is the model behind the login form.
  *
- * @property-read User|null $user This property is read-only.
+ * @property-read Usuarios|null $user This property is read-only.
  *
  */
 class LoginForm extends Model
 {
-    public $username;
-    public $password;
+    public $correo;
+    public $contraseña;
     public $rememberMe = true;
 
     private $_user = false;
@@ -26,20 +26,20 @@ class LoginForm extends Model
     public function rules()
     {
         return [
-            // username and password are both required
-            [['username', 'password'], 'required'],
+            // username and contraseña are both required
+            [['correo', 'contraseña'], 'required'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
-            ['password', 'validatePassword'],
+            ['contraseña', 'validatePassword'],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'username' => 'Usuario',
-            'password' => 'Contraseña',
+            'correo' => 'Correo',
+            'contraseña' => 'Contraseña',
             'rememberMe' => 'Recuérdame',            
         ];
     }
@@ -55,7 +55,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (!$user || !$user->validatePassword($this->contraseña)) {
                 $this->addError($attribute, 'Contraseña o Usuario incorrecto.');
             }
         }
@@ -81,7 +81,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = Usuarios::findByCorreo($this->correo);
         }
 
         return $this->_user;
