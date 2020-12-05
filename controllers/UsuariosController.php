@@ -68,48 +68,14 @@ class UsuariosController extends Controller
     public function actionCreate()
     {
         $model = new Usuarios();
-
-        //Mostrará un mensaje en la vista cuando el usuario se haya registrado
-        $msg = null;
-
-        //Validación mediante ajax
-        if ($model->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
-        }
-
-        //Validación cuando el formulario es enviado vía post
-        //Esto sucede cuando la validación ajax se ha llevado a cabo correctamente
-        //También previene por si el usuario tiene desactivado javascript y la
-        //validación mediante ajax no puede ser llevada a cabo
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                //Preparamos la consulta para guardar el usuario
-                $table = new Usuarios;
-                $table->nombre = $model->nombre;
-                $table->apellidos = $model->apellidos;
-                $table->correo = $model->correo;
-                $table->id_municipio = $model->id_municipio;
-                $table->id_rol = $model->id_rol;
-                //Encriptamos el password
-                $table->contraseña = crypt($model->contraseña, Yii::$app->params["salt"]);
-                //Creamos una cookie para autenticar al usuario cuando decida recordar la sesión, esta misma
-                //clave será utilizada para activar el usuario
-                $table->authKey = $this->randKey("abcdef0123456789", 200);
-                //Creamos un token de acceso único para el usuario
-                $table->accessToken = $this->randKey("abcdef0123456789", 200);
-
-                //Si el registro es guardado correctamente
-                if ($table->insert()) {
-                    $msg = "Ahora sólo falta que confirmes tu registro en tu cuenta de correo";
-                } else {
-                    $msg = "Ha ocurrido un error al llevar a cabo tu registro";
-                }
-            } else {
-                $model->getErrors();
+        $post = Yii::$app->request->post();
+        
+        if ($model->load($post)) {
+            $model->contraseña = crypt($model->contraseña, Yii::$app->params["salt"]);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-        
 
         return $this->render('create', [
             'model' => $model,
