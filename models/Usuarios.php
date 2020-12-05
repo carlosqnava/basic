@@ -18,8 +18,39 @@ use Yii;
  * @property Municipios $municipio
  * @property Roles $rol
  */
-class Usuarios extends \yii\db\ActiveRecord
+class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+    public $authKey;
+    public $accessToken;
+    public $activate;
+    public $verification_code;
+
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getAuthKey()
+    {
+        return $this->authKey;
+    }
+
+    public function validateAuthKey($authKey)
+    {
+        return $this->authKey === $authKey;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -77,5 +108,30 @@ class Usuarios extends \yii\db\ActiveRecord
     public function getRol()
     {
         return $this->hasOne(Roles::className(), ['id' => 'id_rol']);
+    }
+
+    public static function findByCorreo($correo)
+    {
+        $users = Usuarios::find()
+                ->where("correo=:correo", [":correo" => $correo])
+                ->all();
+        
+        foreach ($users as $user) {
+            if (strcasecmp($user->correo, $correo) === 0) {
+                return new static($user);
+            }
+        }
+
+        return null;
+    }
+
+
+    public function validatePassword($contraseña)
+    {
+        /* Valida el password */
+        if (crypt($contraseña, $this->contraseña) == $this->contraseña)
+        {
+        return $contraseña === $contraseña;
+        }
     }
 }

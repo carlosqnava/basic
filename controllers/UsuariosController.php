@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
+use yii\widgets\ActiveForm;
+use yii\web\Response;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,9 +68,47 @@ class UsuariosController extends Controller
     {
         $model = new Usuarios();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        //Mostrará un mensaje en la vista cuando el usuario se haya registrado
+        $msg = null;
+
+        //Validación mediante ajax
+        if ($model->load(Yii::$app->request->post()) && Yii::$app->request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
         }
+
+        //Validación cuando el formulario es enviado vía post
+        //Esto sucede cuando la validación ajax se ha llevado a cabo correctamente
+        //También previene por si el usuario tiene desactivado javascript y la
+        //validación mediante ajax no puede ser llevada a cabo
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                //Preparamos la consulta para guardar el usuario
+                $table = new Usuarios;
+                $table->nombre = $model->nombre;
+                $table->apellidos = $model->apellidos;
+                $table->correo = $model->correo;
+                $table->id_municipio = $model->id_municipio;
+                $table->id_rol = $model->id_rol;
+                //Encriptamos el password
+                $table->contraseña = crypt($model->contraseña, Yii::$app->params["salt"]);
+                //Creamos una cookie para autenticar al usuario cuando decida recordar la sesión, esta misma
+                //clave será utilizada para activar el usuario
+                $table->authKey = $this->randKey("abcdef0123456789", 200);
+                //Creamos un token de acceso único para el usuario
+                $table->accessToken = $this->randKey("abcdef0123456789", 200);
+
+                //Si el registro es guardado correctamente
+                if ($table->insert()) {
+                    $msg = "Ahora sólo falta que confirmes tu registro en tu cuenta de correo";
+                } else {
+                    $msg = "Ha ocurrido un error al llevar a cabo tu registro";
+                }
+            } else {
+                $model->getErrors();
+            }
+        }
+        
 
         return $this->render('create', [
             'model' => $model,
@@ -123,5 +163,17 @@ class UsuariosController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    private function randKey($str = '', $long = 0)
+    {
+        $key = null;
+        $str = str_split($str);
+        $start = 0;
+        $limit = count($str) - 1;
+        for ($x = 0; $x < $long; $x++) {
+            $key .= $str[rand($start, $limit)];
+        }
+        return $key;
     }
 }
