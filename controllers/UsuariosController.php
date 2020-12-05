@@ -5,9 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
+use tidy;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+
 
 /**
  * UsuariosController implements the CRUD actions for Usuarios model.
@@ -65,9 +67,13 @@ class UsuariosController extends Controller
     public function actionCreate()
     {
         $model = new Usuarios();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $post = Yii::$app->request->post();
+        
+        if ($model->load($post)) {
+            $model->contraseña = crypt($model->contraseña, Yii::$app->params["salt"]);
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->employee_id]);
+            }
         }
 
         return $this->render('create', [
@@ -85,9 +91,11 @@ class UsuariosController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->contraseña = crypt($model->contraseña, Yii::$app->params["salt"]);
+            if($model->save()){
             return $this->redirect(['view', 'id' => $model->id]);
+           }
         }
 
         return $this->render('update', [

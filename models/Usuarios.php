@@ -1,6 +1,8 @@
 <?php
 
 namespace app\models;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
 
 use Yii;
 
@@ -18,7 +20,7 @@ use Yii;
  * @property Municipios $municipio
  * @property Roles $rol
  */
-class Usuarios extends \yii\db\ActiveRecord
+class Usuarios extends \yii\db\ActiveRecord 
 {
     /**
      * {@inheritdoc}
@@ -34,10 +36,12 @@ class Usuarios extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_municipio', 'id_rol'], 'required'],
-            [['id_municipio', 'id_rol'], 'integer'],
-            [['nombre', 'apellidos', 'correo', 'contraseña'], 'string', 'max' => 200],
+            [['nombre', 'apellidos', 'correo', 'contraseña', 'id_municipio', 'id_rol'], 'required', 'message' => 'Campo requerido'],
+            ['nombre', 'match', 'pattern' => "/^.{3,50}$/", 'message' => 'Mínimo 3 y máximo 50 caracteres'],
+            ['apellidos', 'match', 'pattern' => "/^.{3,80}$/", 'message' => 'Mínimo 3 y máximo 80 caracteres'],
+            ['correo', 'match', 'pattern' => "/^.{5,80}$/", 'message' => 'Mínimo 5 y máximo 80 caracteres'],
             [['nombre', 'apellidos', 'correo', 'contraseña'], 'required'],
+            ['correo', 'email', 'message' => 'Formato no válido'],
             [['id_municipio'], 'exist', 'skipOnError' => true, 'targetClass' => Municipios::className(), 'targetAttribute' => ['id_municipio' => 'id']],
             [['id_rol'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::className(), 'targetAttribute' => ['id_rol' => 'id']],
         ];
@@ -78,4 +82,5 @@ class Usuarios extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Roles::className(), ['id' => 'id_rol']);
     }
+    
 }
