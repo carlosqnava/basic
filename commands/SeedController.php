@@ -9,6 +9,7 @@ namespace app\commands;
 
 use yii\console\Controller;
 use app\models\Municipio;
+use app\models\Roles;
 
 class SeedController extends Controller
 {
@@ -76,16 +77,65 @@ class SeedController extends Controller
             'Santa María de la Paz', 
         );
         
-        $municipio = new Municipio();
-        var_dump(sizeof($municipios));
-        for ( $i = 0; $i <= sizeof($municipios); $i++ )
-        {
-            $municipio->setIsNewRecord(true);
-            $municipio->id = null;
+        // $municipio = new Municipio();
+        // var_dump(sizeof($municipios));
+        // for ( $i = 0; $i <= sizeof($municipios); $i++ )
+        // {
+        //     $municipio->setIsNewRecord(true);
+        //     $municipio->id = null;
 
-            $municipio->nombre = $municipios[$i];
-            $municipio->save();
-        }
+        //     $municipio->nombre = $municipios[$i];
+        //     $municipio->save();
+        // }
+
+        $rolSuperAdmin = new Roles();
+        $rolSuperAdmin->setIsNewRecord(true);
+        $rolSuperAdmin->id = 1;
+
+        $rolSuperAdmin->nombre = 'Super Administrador';
+        $rolSuperAdmin->save();
+
+        $rolAdmin = new Roles();
+        $rolAdmin->setIsNewRecord(true);
+        $rolAdmin->id = 2;
+
+        $rolAdmin->nombre = 'Administrador General';
+        $rolAdmin->save();
+
+        $rolCoordinador = new Roles();
+        $rolCoordinador->setIsNewRecord(true);
+        $rolCoordinador->id = 3;
+
+        $rolCoordinador->nombre = 'Coordinador de Liga';
+        $rolCoordinador->save();
+
+        $rolComisario = new Roles();
+        $rolComisario->setIsNewRecord(true);
+        $rolComisario->id = 4;
+
+        $rolComisario->nombre = 'Comisario Municipal';
+        $rolComisario->save();
+
+        $rolArbitro = new Roles();
+        $rolArbitro->setIsNewRecord(true);
+        $rolArbitro->id = 5;
+
+        $rolArbitro->nombre = 'Arbitro';
+        $rolArbitro->save();
+
+        $rolDeportista = new Roles();
+        $rolDeportista->setIsNewRecord(true);
+        $rolDeportista->id = 6;
+
+        $rolDeportista->nombre = 'Deportista';
+        $rolDeportista->save();
+
+        $rolEntrenador = new Roles();
+        $rolEntrenador->setIsNewRecord(true);
+        $rolEntrenador->id = 7;
+
+        $rolEntrenador->nombre = 'Entrenador';
+        $rolEntrenador->save();
 
     }
 }
