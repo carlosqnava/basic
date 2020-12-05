@@ -4,7 +4,7 @@ namespace app\models;
 use Yii;
 use yii\db\ActiveRecord;
 
-class Municipio extends ActiveRecord{
+class Municipios extends ActiveRecord{
     
     public static function getDb()
     {
