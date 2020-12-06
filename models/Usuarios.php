@@ -69,8 +69,10 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
         return [
             [['nombre', 'apellidos', 'correo', 'contraseña', 'id_municipio', 'id_rol'], 'required', 'message' => 'Campo requerido'],
             ['nombre', 'match', 'pattern' => "/^.{3,50}$/", 'message' => 'Mínimo 3 y máximo 50 caracteres'],
-            ['contraseña', 'match', 'pattern' => "/^.{3,15}$/", 'message' => 'Mínimo 3 y máximo 15 caracteres'],
             ['apellidos', 'match', 'pattern' => "/^.{3,80}$/", 'message' => 'Mínimo 3 y máximo 80 caracteres'],
+            ['nombre', 'match', 'pattern' =>  "/^[a-zA-Z/\s/áéíóú]+$/i", 'message' => 'Solo se aceptan letras'],
+            ['apellidos', 'match', 'pattern' =>  "/^[a-zA-Z/\s/áéíóú]+$/i", 'message' => 'Solo se aceptan letras'],
+            ['contraseña', 'match', 'pattern' => "/^.{3,15}$/", 'message' => 'Mínimo 3 y máximo 15 caracteres'],
             ['correo', 'match', 'pattern' => "/^.{5,80}$/", 'message' => 'Mínimo 5 y máximo 80 caracteres'],
             [['nombre', 'apellidos', 'correo', 'contraseña'], 'required'],
             ['correo', 'email', 'message' => 'Formato no válido'],
@@ -87,7 +89,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     {
         return [
             'id' => 'ID',
-            'nombre' => 'Nombre',
+            'nombre' => 'Nombre(s)',
             'apellidos' => 'Apellidos',
             'correo' => 'Correo',
             'contraseña' => 'Contraseña',

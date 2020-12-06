@@ -90,6 +90,13 @@ a.desc:after {
     margin: 0 0 15px 0;
 }
 
+.btn-success {
+    background: #0f850a;
+    font-size: 18px;
+    border-radius: 30px;
+    width:24%;    
+}
+
 /* align the logout "link" (button in form) of the navbar */
 .nav li > form > button.logout {
     padding: 15px;

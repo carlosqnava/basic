@@ -27,7 +27,7 @@ class LoginForm extends Model
     {
         return [
             // username and contraseña are both required
-            [['correo', 'contraseña'], 'required'],
+            [['correo', 'contraseña'], 'required', 'message' => 'Este campo no puede ir vacío'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -38,7 +38,7 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'correo' => 'Correo',
+            'correo' => 'Correo Electrónico',
             'contraseña' => 'Contraseña',
             'rememberMe' => 'Recuérdame',            
         ];
