@@ -39,8 +39,12 @@ class UsuariosController extends Controller
     public function actionIndex()
     {
         $searchModel = new UsuariosSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        
+        if (Yii::$app->user->identity->id_rol == 1 || Yii::$app->user->identity->id_rol == 2 || Yii::$app->user->identity->id_rol == 4) {
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        }else {
+            return $this->render('/site/index');
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -93,7 +97,6 @@ class UsuariosController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) ) {
-            $model->contraseña = crypt($model->contraseña, Yii::$app->params["salt"]);
             if($model->save()){
             return $this->redirect(['view', 'id' => $model->id]);
            }
