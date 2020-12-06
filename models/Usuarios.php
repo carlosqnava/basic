@@ -20,7 +20,7 @@ use Yii;
  * @property Municipios $municipio
  * @property Roles $rol
  */
-class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
+class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface 
 {
     public $authKey;
     public $accessToken;
@@ -74,6 +74,7 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
             ['correo', 'match', 'pattern' => "/^.{5,80}$/", 'message' => 'Mínimo 5 y máximo 80 caracteres'],
             [['nombre', 'apellidos', 'correo', 'contraseña'], 'required'],
             ['correo', 'email', 'message' => 'Formato no válido'],
+            ['correo', 'unique', 'message' => 'El correo ya está registrado'],
             [['id_municipio'], 'exist', 'skipOnError' => true, 'targetClass' => Municipios::className(), 'targetAttribute' => ['id_municipio' => 'id']],
             [['id_rol'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::className(), 'targetAttribute' => ['id_rol' => 'id']],
         ];

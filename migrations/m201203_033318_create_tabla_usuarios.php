@@ -16,7 +16,7 @@ class m201203_033318_create_tabla_usuarios extends Migration
             'id' => $this->primaryKey(),
             'nombre' => $this->string(200),
             'apellidos' => $this->string(200),
-            'correo' => $this->string(200),
+            'correo' => $this->string(200)->unique(),
             'contraseña' => $this->string(200),
             'authKey' => $this->string(250),
             'accessToken' => $this->string(250),

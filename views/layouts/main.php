@@ -29,7 +29,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => '<img src="https://incufidez.zacatecas.gob.mx/wp-content/uploads/2019/02/LOGO-NUEVO.png" style="display:inline; horizontal-align: top; height:36px;">Torneos Estatales',
+        'brandLabel' => '<img src="https://incufidez.zacatecas.gob.mx/wp-content/uploads/2019/02/LOGO-NUEVO.png" style="display:inline; horizontal-align: top; height:150%;" > Torneos Estatales',
         //'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -39,16 +39,19 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],       
-            ['label' => 'Contacto', 'url' => ['/site/contact']],
-            ['label' => 'Crear Registro', 'url' => ['/site/create']],
-            ['label' => 'Ver Registros', 'url' => ['/site/view']],
-            //['label' => 'Ver Calendario', 'url' => ['/site/view']],
-            //['label' => 'Ver Convocatorias', 'url' => ['/site/view']],
-            //['label' => 'Acerca de', 'url' => ['/site/about']],
-            ['label' => 'Subir Archivo', 'url' => ['/site/upload']],
-            ['label' => 'Registrarse', 'url' => ['/site/register']],
-            ['label' => 'Usuarios', 'url' => ['/usuarios/index']],
+            ['label' => 'Inicio', 'url' => ['/site/index']],
+            !Yii::$app->user->isGuest ?(
+                Yii::$app->user->identity->id_rol ==  1 || Yii::$app->user->identity->id_rol == 2 || Yii::$app->user->identity->id_rol == 4?(
+                    ['label' => 'Usuarios', 'url' => ['/usuarios/index']]
+                ) : (
+                    ['label' => 'Contacto', 'url' => ['/site/contact']]
+                )
+
+            ) : (
+                ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
+            ),
+            
+            
             Yii::$app->user->isGuest ? (
                 ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
             ) : (
@@ -61,6 +64,7 @@ AppAsset::register($this);
                 . Html::endForm()
                 . '</li>'
             )
+            
         ],
     ]);
     NavBar::end();
