@@ -53,7 +53,7 @@ AppAsset::register($this);
             
             
             Yii::$app->user->isGuest ? (
-                ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
+                ['label' => 'Contacto', 'url' => ['/site/contact']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
