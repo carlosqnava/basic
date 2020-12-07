@@ -77,16 +77,6 @@ class SeedController extends Controller
             'Santa María de la Paz', 
         );
         
-        // $municipio = new Municipio();
-        // var_dump(sizeof($municipios));
-        // for ( $i = 0; $i <= sizeof($municipios); $i++ )
-        // {
-        //     $municipio->setIsNewRecord(true);
-        //     $municipio->id = null;
-
-        //     $municipio->nombre = $municipios[$i];
-        //     $municipio->save();
-        // }
 
         $rolSuperAdmin = new Roles();
         $rolSuperAdmin->setIsNewRecord(true);

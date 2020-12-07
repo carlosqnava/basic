@@ -8,7 +8,7 @@ class UsuariosTest extends \Codeception\Test\Unit
 {
     public function testFindUsuarioPorId()
     {
-        expect_that($usuarios = Usuarios::findIdentity(2));
+        expect_that($usuarios = Usuarios::findIdentity(52));
     }
 
     // public function testFindUserByAccessToken()

@@ -103,9 +103,8 @@ class AdminGeneralCest
         $I->see('Formato no válido');
     }
 
-    public function contrasenaVacio(\FunctionalTester $I)
-    {
-        
+    public function verComisarioMunicipal(\FunctionalTester $I)
+    {   
         $I->amOnPage(['site/login']);
         $I->submitForm('#login-form', []);
         $I->fillField('#loginform-correo', 'aaa@gmail.com');
@@ -115,10 +114,52 @@ class AdminGeneralCest
         $I->expectTo('Ver los errores de validación');
         $I->see('Registro de Usuarios');
         $I->click('Crear Nuevo Usuario');
-        $I->fillField('Usuarios[nombre]','aaaaaa');
-        $I->fillField('Usuarios[apellidos]','aaaaaa');
-        $I->fillField('Usuarios[correo]','aaaaaa@gmail.com');
-        $I->click('Guardar');
+        $I->fillField('Usuarios[correo]', 'aaaaaaa@gmail.com');
+        $I->see('Comisario Municipal');
+    }
+
+    public function verComisarioADeportista(\FunctionalTester $I)
+    {   
+        $I->amOnPage(['site/login']);
+        $I->submitForm('#login-form', []);
+        $I->fillField('#loginform-correo', 'comisario@gmail.com');
+        $I->fillField('#loginform-contraseña', 'comisario');
+        $I->click('login-button');
+        $I->amOnPage(['/usuarios/index']);
+        $I->expectTo('Ver los errores de validación');
+        $I->see('Registro de Usuarios');
+        $I->click('Crear Nuevo Usuario');
+        $I->fillField('Usuarios[correo]', 'aaaaaaa@gmail.com');
+        $I->see('Deportista');
+    }
+
+    public function verComisarioAEntrenador(\FunctionalTester $I)
+    {   
+        $I->amOnPage(['site/login']);
+        $I->submitForm('#login-form', []);
+        $I->fillField('#loginform-correo', 'comisario@gmail.com');
+        $I->fillField('#loginform-contraseña', 'comisario');
+        $I->click('login-button');
+        $I->amOnPage(['/usuarios/index']);
+        $I->expectTo('Ver los errores de validación');
+        $I->see('Registro de Usuarios');
+        $I->click('Crear Nuevo Usuario');
+        $I->fillField('Usuarios[correo]', 'aaaaaaa@gmail.com');
+        $I->see('Entrenador');
+    }
+
+    public function seleccionarComisario(\FunctionalTester $I)
+    {   
+        $I->amOnPage(['site/login']);
+        $I->submitForm('#login-form', []);
+        $I->fillField('#loginform-correo', 'aaa@gmail.com');
+        $I->fillField('#loginform-contraseña', 'aaa');
+        $I->click('login-button');
+        $I->amOnPage(['/usuarios/index']);
+        $I->expectTo('Ver los errores de validación');
+        $I->see('Registro de Usuarios');
+        $I->click('Crear Nuevo Usuario');
+        $I->see('Comisario Municipal');
     }
 
 }
