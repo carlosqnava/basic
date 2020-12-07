@@ -93,7 +93,6 @@ class UsuariosController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) ) {
-            $model->contraseña = crypt($model->contraseña, Yii::$app->params["salt"]);
             if($model->save()){
             return $this->redirect(['view', 'id' => $model->id]);
            }

@@ -25,24 +25,20 @@ class ContactFormTest extends \Codeception\Test\Unit
             ->willReturn(true);
 
         $this->model->attributes = [
-            'name' => 'Tester',
-            'email' => 'tester@example.com',
-            'subject' => 'very important letter subject',
-            'body' => 'body of current message',
+            'name' => 'prueba',
+            'email' => 'prueba@ejemplo.com',
+            'subject' => 'importante probar',
+            'body' => 'hola mundo del test',
         ];
 
-        expect_that($this->model->contact('admin@example.com'));
+        expect_that($this->model->contact('webedufacil@gmail.com'));
 
         // using Yii2 module actions to check email was sent
         $this->tester->seeEmailIsSent();
 
         /** @var MessageInterface $emailMessage */
         $emailMessage = $this->tester->grabLastSentEmail();
-        expect('valid email is sent', $emailMessage)->isInstanceOf('yii\mail\MessageInterface');
-        expect($emailMessage->getTo())->hasKey('admin@example.com');
-        expect($emailMessage->getFrom())->hasKey('noreply@example.com');
-        expect($emailMessage->getReplyTo())->hasKey('tester@example.com');
-        expect($emailMessage->getSubject())->equals('very important letter subject');
-        expect($emailMessage->toString())->stringContainsString('body of current message');
+        expect('Gracias por contactarse. Te responderemos lo más pronto posible.', $emailMessage)->isInstanceOf('yii\mail\MessageInterface');
+        
     }
 }
