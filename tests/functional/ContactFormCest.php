@@ -1,57 +1,44 @@
 <?php
 
-class ContactFormCest 
+namespace tests\unit\models;
+
+use app\models\ContactForm;
+use yii\mail\MessageInterface;
+
+class ContactFormTest extends \Codeception\Test\Unit
 {
-    public function _before(\FunctionalTester $I)
-    {
-        $I->amOnPage(['site/contact']);
-    }
+    private $model;
+    /**
+     * @var \UnitTester
+     */
+    public $tester;
 
-    public function openContactPage(\FunctionalTester $I)
+    public function testEmailIsSentOnContact()
     {
-        $I->see('Contact', 'h1');        
-    }
+        /** @var ContactForm $model */
+        $this->model = $this->getMockBuilder('app\models\ContactForm')
+            ->setMethods(['validate'])
+            ->getMock();
 
-    public function submitEmptyForm(\FunctionalTester $I)
-    {
-        $I->submitForm('#contact-form', []);
-        $I->expectTo('see validations errors');
-        $I->see('Contact', 'h1');
-        $I->see('Name cannot be blank');
-        $I->see('Email cannot be blank');
-        $I->see('Subject cannot be blank');
-        $I->see('Body cannot be blank');
-        $I->see('The verification code is incorrect');
-    }
+        $this->model->expects($this->once())
+            ->method('validate')
+            ->willReturn(true);
 
-    public function submitFormWithIncorrectEmail(\FunctionalTester $I)
-    {
-        $I->submitForm('#contact-form', [
-            'ContactForm[name]' => 'tester',
-            'ContactForm[email]' => 'tester.email',
-            'ContactForm[subject]' => 'test subject',
-            'ContactForm[body]' => 'test content',
-            'ContactForm[verifyCode]' => 'testme',
-        ]);
-        $I->expectTo('see that email address is wrong');
-        $I->dontSee('Name cannot be blank', '.help-inline');
-        $I->see('Email is not a valid email address.');
-        $I->dontSee('Subject cannot be blank', '.help-inline');
-        $I->dontSee('Body cannot be blank', '.help-inline');
-        $I->dontSee('The verification code is incorrect', '.help-inline');        
-    }
+        $this->model->attributes = [
+            'name' => 'prueba',
+            'email' => 'prueba@ejemplo.com',
+            'subject' => 'importante probar',
+            'body' => 'hola mundo del test',
+        ];
 
-    public function submitFormSuccessfully(\FunctionalTester $I)
-    {
-        $I->submitForm('#contact-form', [
-            'ContactForm[name]' => 'tester',
-            'ContactForm[email]' => 'tester@example.com',
-            'ContactForm[subject]' => 'test subject',
-            'ContactForm[body]' => 'test content',
-            'ContactForm[verifyCode]' => 'testme',
-        ]);
-        $I->seeEmailIsSent();
-        $I->dontSeeElement('#contact-form');
-        $I->see('Thank you for contacting us. We will respond to you as soon as possible.');        
+        expect_that($this->model->contact('webedufacil@gmail.com'));
+
+        // using Yii2 module actions to check email was sent
+        $this->tester->seeEmailIsSent();
+
+        /** @var MessageInterface $emailMessage */
+        $emailMessage = $this->tester->grabLastSentEmail();
+        expect('Gracias por contactarse. Te responderemos lo más pronto posible.', $emailMessage)->isInstanceOf('yii\mail\MessageInterface');
+        
     }
 }
