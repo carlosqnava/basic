@@ -67,16 +67,18 @@ class Usuarios extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfac
     public function rules()
     {
         return [
-            [['nombre', 'apellidos', 'correo', 'contraseña', 'id_municipio', 'id_rol'], 'required', 'message' => 'Campo requerido'],
-            ['nombre', 'match', 'pattern' => "/^.{3,50}$/", 'message' => 'Mínimo 3 y máximo 50 caracteres'],
-            ['apellidos', 'match', 'pattern' => "/^.{3,80}$/", 'message' => 'Mínimo 3 y máximo 80 caracteres'],
+            [['nombre'],'required', 'message' => 'Nombre requerido'],
+            [['apellidos'],'required', 'message' => 'Apellidos requerido'],
+            [['contraseña'],'required', 'message' => 'Contraseña requerida'],
+            [['correo'],'required', 'message' => 'Correo requerido'],
+            ['nombre', 'match', 'pattern' => "/^.{3,50}$/", 'message' => 'Mínimo 3 caracteres y máximo 50 caracteres'],
+            ['apellidos', 'match', 'pattern' => "/^.{3,80}$/", 'message' => 'Mínimo 3 caracteres y máximo 80 caracteres'],
             ['nombre', 'match', 'pattern' =>  "/^[a-z,A-Z,áéíóú,\s]+$/i", 'message' => 'Solo se aceptan letras'],
             ['apellidos', 'match', 'pattern' =>  "/^[a-z,A-Z,áéíóú,\s]+$/i", 'message' => 'Solo se aceptan letras'],
-            ['contraseña', 'match', 'pattern' => "/^.{3,15}$/", 'message' => 'Mínimo 3 y máximo 15 caracteres'],
+            ['contraseña', 'match', 'pattern' => "/^.{3,15}$/", 'message' => 'Mínimo 3 caracteres y máximo 15 caracteres'],
             ['correo', 'match', 'pattern' => "/^.{5,80}$/", 'message' => 'Mínimo 5 y máximo 80 caracteres'],
-            [['nombre', 'apellidos', 'correo', 'contraseña'], 'required'],
             ['correo', 'email', 'message' => 'Formato no válido'],
-            ['correo', 'unique', 'message' => 'El correo ya está registrado'],
+            ['correo', 'unique', 'message' => 'El correo electrónico ingresado ya está siendo utilizado por otro usuario'],
             [['id_municipio'], 'exist', 'skipOnError' => true, 'targetClass' => Municipios::className(), 'targetAttribute' => ['id_municipio' => 'id']],
             [['id_rol'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::className(), 'targetAttribute' => ['id_rol' => 'id']],
         ];
