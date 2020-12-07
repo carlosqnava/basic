@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="usuarios-form">
+<div class="usuarios-form" id="usuarios-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
