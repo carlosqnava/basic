@@ -33,13 +33,15 @@ AppAsset::register($this);
         //'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'my-navbar navbar-fixed-top',
         ],
     ]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
+            ['label' => 'Convocatorias', 'url' => ['/convocatorias/index']],
+            ['label' => 'Archivos', 'url' => ['/archivos/index']],
             !Yii::$app->user->isGuest ?(
                 Yii::$app->user->identity->id_rol ==  1 || Yii::$app->user->identity->id_rol == 2 || Yii::$app->user->identity->id_rol == 4?(
                     ['label' => 'Usuarios', 'url' => ['/usuarios/index']]
