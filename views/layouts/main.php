@@ -40,18 +40,42 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
-            ['label' => 'Convocatorias', 'url' => ['/convocatorias/index']],
-            ['label' => 'Archivos', 'url' => ['/archivos/index']],
+            
+            //['label' => 'Convocatorias', 'url' => ['/convocatorias/index']],
+            //['label' => 'Archivos', 'url' => ['/archivos/index']],
             !Yii::$app->user->isGuest ?(
                 Yii::$app->user->identity->id_rol ==  1 || Yii::$app->user->identity->id_rol == 2 || Yii::$app->user->identity->id_rol == 4?(
                     ['label' => 'Usuarios', 'url' => ['/usuarios/index']]
                 ) : (
                     ['label' => 'Contacto', 'url' => ['/site/contact']]
-                )
-
+                ) 
             ) : (
-                ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
-            ),
+                    ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
+            )
+            , 
+
+            !Yii::$app->user->isGuest ?(
+                Yii::$app->user->identity->id_rol ==  1 || Yii::$app->user->identity->id_rol == 4?(
+                    ['label' => 'Archivos', 'url' => ['/archivos/index']]
+                ) : (
+                    ['label' => 'Contacto', 'url' => ['/site/contact']]
+                ) 
+            ) : (
+                    ''
+            )
+            ,
+
+            !Yii::$app->user->isGuest ?(
+                Yii::$app->user->identity->id_rol ==  1 || Yii::$app->user->identity->id_rol == 2?(
+                    ['label' => 'Convocatorias', 'url' => ['/convocatorias/index']]
+                ) : (
+                    ['label' => 'Contacto', 'url' => ['/site/contact']]
+                ) 
+            ) : (
+                    ''
+            )
+            ,
+            
             
             
             Yii::$app->user->isGuest ? (
@@ -83,9 +107,9 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Gobierno del Estado de Zacatecas 2016 - 2021 </p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right">Aviso de Privacidad.</p>
     </div>
 </footer>
 
@@ -93,3 +117,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+

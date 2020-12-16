@@ -29,8 +29,11 @@ class Convocatorias extends \yii\db\ActiveRecord
     {
         return [
             [['fecha'], 'safe'],
-            [['nombre'], 'string', 'max' => 200],
-            [['descripcion'], 'string', 'max' => 300],
+            [['nombre'],'required', 'message' => 'Campo nombre requerido'],
+            [['fecha'],'required', 'message' => 'Campo fecha requerido'],
+            [['descripcion'],'required', 'message' => 'Campo descripcion requerido'],
+            ['nombre', 'match', 'pattern' => "/^.{3,50}$/", 'message' => 'Mínimo 3 caracteres y máximo 50 caracteres'],
+            ['descripcion', 'match', 'pattern' => "/^.{3,70}$/", 'message' => 'Mínimo 3 caracteres y máximo 70 caracteres'],
         ];
     }
 
@@ -42,7 +45,7 @@ class Convocatorias extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Descripción',
             'fecha' => 'Fecha',
         ];
     }

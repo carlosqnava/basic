@@ -29,9 +29,10 @@ class Archivos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nombre', 'descripcion'], 'required'],
-            [['nombre'], 'string', 'max' => 80],
-            [['descripcion'], 'string', 'max' => 200],
+            [['nombre'],'required', 'message' => 'Campo nombre requerido'],
+            [['descripcion'],'required', 'message' => 'Campo fecha requerido'],
+            ['nombre', 'match', 'pattern' => "/^.{3,50}$/", 'message' => 'Mínimo 3 caracteres y máximo 50 caracteres'],
+            ['descripcion', 'match', 'pattern' => "/^.{3,70}$/", 'message' => 'Mínimo 3 caracteres y máximo 70 caracteres'],
         ];
     }
 
@@ -43,7 +44,7 @@ class Archivos extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nombre' => 'Nombre',
-            'descripcion' => 'Descripcion',
+            'descripcion' => 'Descripción',
         ];
     }
 
