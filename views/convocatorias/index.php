@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -27,6 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'nombre',
             'descripcion',
             'fecha',
+            'fecha_termino',
+            'ruta',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

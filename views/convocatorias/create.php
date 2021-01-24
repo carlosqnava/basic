@@ -10,6 +10,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Convocatorias', 'url' => ['index']
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="convocatorias-create">
+<p>
+    <?php if($msg!=null): ?>
+        <?= $msg ?>
+    <?php endif; ?>
+    </p>
 
     <h1>Registro de Convocatorias</h1>
 

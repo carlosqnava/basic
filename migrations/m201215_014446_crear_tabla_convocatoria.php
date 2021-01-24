@@ -17,6 +17,7 @@ class m201215_014446_crear_tabla_convocatoria extends Migration
             'nombre' => $this->string(200),
             'descripcion' => $this->string(300),
             'fecha' => $this->dateTime(),
+            'fecha_termino' => $this->dateTime(),
         ]);
     }
 

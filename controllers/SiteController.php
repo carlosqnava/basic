@@ -15,7 +15,9 @@ use yii\data\Pagination;
 use yii\helpers\Url;
 use app\models\Users;
 use yii\web\Session;
-
+use app\models\Convocatorias;
+use app\models\FormUpload;
+use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 
 
@@ -155,7 +157,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $convocatorias = Convocatorias::find()->all();
+
+        return $this->render('index', [
+            'convocatorias' => $convocatorias,
+        ]);
+        // return $this->render('index');
     }
 
     /**
