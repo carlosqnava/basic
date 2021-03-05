@@ -19,9 +19,9 @@ $this->title = 'Torneos Estatales INCUFIDEZ';
         <div class="row">
         <?php foreach ($convocatorias as $convocatoria): ?>
 
-                <div class="col-lg-3">
-                    <div class="card border-success mb-3" style="width: 18rem;">
-                        <img src="../<?= $convocatoria->ruta ?>" class="card-img-top" style="width: 70%;"  alt="...">
+                <div class="col-sm-3">
+                    <div class="card border-dark mb-3" style="width: 20rem;">
+                        <img src="../<?= $convocatoria->ruta ?>" class="card-img-top img-fluid img-thumbnail " style="width: 80%;"  alt="...">
                         <div class="card-body">
                             <h5 class="card-title"><?= $convocatoria->nombre ?></h5>
                             <p class="card-text"><?= $convocatoria->descripcion ?></p>

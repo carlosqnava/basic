@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Archivos;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -17,6 +18,7 @@ use app\models\Users;
 use yii\web\Session;
 use app\models\Convocatorias;
 use app\models\FormUpload;
+use app\models\UsuarioArchivo;
 use yii\data\ActiveDataProvider;
 use yii\web\UploadedFile;
 
@@ -85,18 +87,32 @@ class SiteController extends Controller
     {
         $model = new FormUpload;
         $msg = null;
+        $usuario_archivo = new UsuarioArchivo();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->file = UploadedFile::getInstances($model, 'file');
 
             if ($model->file && $model->validate()) {
                 foreach ($model->file as $file) {
+                    $usuario_archivo->id_usuario = Yii::$app->user->identity->id;
+                    $usuario_archivo->id_archivo = 1; 
+                    $usuario_archivo->ruta = 'archivos/' . $file->baseName . '.' . $file->extension;
+                    if($usuario_archivo->save()){
+                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                    }else{
+                        
+                        var_dump($usuario_archivo->errors);
+                        $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito pero con error en tabla usuario archivos</strong></p>";
+                    }
                     $file->saveAs('archivos/' . $file->baseName . '.' . $file->extension);
-                    $msg = "<p><strong class='label label-info'>Enhorabuena, subida realizada con éxito</strong></p>";
+                    
                 }
             }
         }
-        return $this->render("upload", ["model" => $model, "msg" => $msg]);
+
+        $archivos = Archivos::find()->all();
+
+        return $this->render("upload", ["model" => $model, "msg" => $msg, 'archivos' => $archivos]);
     }
 
     private function randKey($str = '', $long = 0)
@@ -173,12 +189,20 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            $convocatorias = Convocatorias::find()->all();
+
+            return $this->render('index', [
+                'convocatorias' => $convocatorias,
+            ]);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            $convocatorias = Convocatorias::find()->all();
+
+            return $this->render('index', [
+                'convocatorias' => $convocatorias,
+            ]);
         }
 
         $model->contraseña = '';
@@ -196,7 +220,11 @@ class SiteController extends Controller
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        $convocatorias = Convocatorias::find()->all();
+
+        return $this->render('index', [
+            'convocatorias' => $convocatorias,
+        ]);
     }
 
     /**

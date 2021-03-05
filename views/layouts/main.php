@@ -32,7 +32,7 @@ AppAsset::register($this);
     NavBar::begin([
         'brandLabel' => '<img src="https://incufidez.zacatecas.gob.mx/wp-content/uploads/2019/02/LOGO-NUEVO.png" style="display:inline; horizontal-align: top; height:150%;" > Torneos Estatales',
         //'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => ['/site/index'],
         'options' => [
             'class' => 'my-navbar navbar-fixed-top',
         ],
@@ -48,7 +48,7 @@ AppAsset::register($this);
                 Yii::$app->user->identity->id_rol ==  1 || Yii::$app->user->identity->id_rol == 2 || Yii::$app->user->identity->id_rol == 4?(
                     ['label' => 'Usuarios', 'url' => ['/usuarios/index']]
                 ) : (
-                    ['label' => 'Contacto', 'url' => ['/site/contact']]
+                    ['label' => 'Subir Archivos', 'url' => ['/site/upload']]
                 ) 
             ) : (
                     ['label' => 'Iniciar Sesión', 'url' => ['/site/login']]
@@ -70,7 +70,7 @@ AppAsset::register($this);
                 Yii::$app->user->identity->id_rol ==  1 || Yii::$app->user->identity->id_rol == 2?(
                     ['label' => 'Convocatorias', 'url' => ['/convocatorias/index']]
                 ) : (
-                    ['label' => 'Contacto', 'url' => ['/site/contact']]
+                    ''
                 ) 
             ) : (
                     ''

@@ -23,8 +23,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
-        ]) ?>
+        ]) ?> 
+        
     </p>
+    
+    <?= $model->id_rol != 1 && $model->id_rol != 2 && $model->id_rol != 4? (
+        ( Html::a('Ver archivos', ['archivos', 'id' => $model->id], ['class' => 'btn btn-primary']))
+        ) : (
+            ''
+        )
+            ?>
 
     <?= DetailView::widget([
         'model' => $model,

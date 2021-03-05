@@ -7,33 +7,23 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\UsuariosSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Registro de Usuarios';
+$this->title = 'Archivos del Usuario';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="usuarios-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Crear Nuevo Usuario', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'dataProvider' => $archivos,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            //'id',
-            'nombre',
-            'apellidos',
-            'correo',
-            //'contraseña',
-            //'id_municipio',
-            'id_rol',
-            
-            ['class' => 'yii\grid\ActionColumn'],
+            'id_usuario',
+            'ruta',
         ],
     ]); ?>
 

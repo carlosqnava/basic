@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\UsuarioArchivo;
 use Yii;
 use app\models\Usuarios;
 use app\models\UsuariosSearch;
+use yii\data\ActiveDataProvider;
 use yii\widgets\ActiveForm;
 use yii\web\Response;
 use yii\web\Controller;
@@ -147,5 +149,16 @@ class UsuariosController extends Controller
             $key .= $str[rand($start, $limit)];
         }
         return $key;
+    }
+
+    public function actionArchivos($id){
+        $dataProvider = new ActiveDataProvider([
+            'query' => UsuarioArchivo::find()->where(['id_usuario' => $id]),
+        ]);
+
+        return $this->render('archivos', [
+            'archivos' => $dataProvider,
+        ]);
+        
     }
 }
